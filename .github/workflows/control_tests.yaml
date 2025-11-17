@@ -27,6 +27,6 @@ jobs: # jobs => début de la section ou on défini les différentes tâches du w
   - name: Run tests
     run: pytest # run permet d’exécuter directement des commandes comme si tu étais dans un terminal Linux.
 
-    # Étape 5 : vérifier le style du code avec flake8
+    # Étape 5 : vérifier le style du code avec flake8.
   - name: Run flake8
     uses: py-actions/flake8@v2
