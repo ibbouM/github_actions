@@ -26,8 +26,6 @@ jobs: # jobs => début de la section ou on défini les différentes tâches du w
           pytest
       # Étape 5 : vérifier le style du code avec flake8.
       - name: Run tests
-        run: |
-          cd ${{ github.workspace }}   
-          pytest -v                 
+        run: pytest ${{ github.workspace }}/file_test.py -v           
       - name: Run flake8
         uses: py-actions/flake8@v2
