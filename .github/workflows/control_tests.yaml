@@ -1,32 +1,27 @@
-name: Pytest & flake8 control Push
+name: Control Push
 on: push # A chaque fois qu’un “push” est effectué sur le dépôt, le workflow GitHub Actions se déclenchent automatiquement.
 jobs: # jobs => début de la section ou on défini les différentes tâches du workflow. 
   qa: # qa => c'est l'id interne du job (on peut choisir le nom que l'on souhaite. Ici, qa c'est pour quality assurance)
     name: Check tests # name => c’est le nom lisible qui apparaîtra dans l’interface GitHub Actions.
     runs-on: ubuntu-24.04 # runs-on => indique sur quelle machine (runner) le job va s’exécuter (ici une machine Linux Ubuntu 24.04).
-  steps:
-  # Étape 1 : récupérer le code source depuis le dépôt GitHub
-  - name: Checkout on master # Nom affiché pour l’étape
-    uses: actions/checkout@v3 # Action officielle de GitHub pour cloner le dépôt dans la VM
-  # Étape 2 : installer Python sur la machine virtuelle
-  - name: Set up Python # Nom affiché pour l’étape
-  # Dans la première étape, nous avons le mot clé "uses" qui fait appel à un workflow réutilisable déjà existant sur github. 
-   # Ensuite nous installons Python sur l'instance avec un autre worflow qui existe déjà. et nous spécifions la version de Python avec le mot clé with.
-    uses: actions/setup-python@master # Action officielle pour configurer Python | uses permet d’exécuter une action prête à l’emploi déjà créée par GitHub ou la communauté.
-    with: # Paramètres transmis à l'action
-      python-version: "3.x"  # Version de Python à utiliser (ex. 3.10, 3.11...)
-   # Étape 3 : installer les dépendances nécessaires (pytest et flake8)
-   # Avec le mot clé run, il suffit de lancer cette commande dans le shell Ubuntu sur l'instance.
-   # Pour utiliser flake8, vous devez utiliser un workflow déjà existant sur le marketplace github.
-  - name: Install pytest and flake8
-    run: |
-      pip install pytest
-      pip install flake8
-
-    # Étape 4 : exécuter les tests avec pytest
-  - name: Run tests
-    run: pytest # run permet d’exécuter directement des commandes comme si tu étais dans un terminal Linux.
-
-    # Étape 5 : vérifier le style du code avec flake8.
-  - name: Run flake8
-    uses: py-actions/flake8@v2
+    steps:
+      # Étape 1 : récupérer le code source depuis le dépôt GitHub
+      - name: Checkout on master # Nom affiché pour l’étape
+        uses: actions/checkout@v3 # Action officielle de GitHub pour cloner le dépôt dans la VM
+      # Étape 2 : installer Python sur la machine virtuelle
+      - name: Set up Python # Nom affiché pour l’étape
+        uses: actions/setup-python@master #le mot clé "uses" fait appel à un workflow réutilisable déjà existant sur github. 
+        with: # Paramètres transmis à l'action
+          python-version: "3.x"
+      # Étape 3 : installer les dépendances nécessaires (pytest et flake8)
+      - name: Install pytest and flake8
+        run: |
+          pip install pytest
+          pip install flake8
+      # Étape 4 : exécuter les tests avec pytest
+      - name: Run tests
+        run: |
+          pytest
+      # Étape 5 : vérifier le style du code avec flake8.
+      - name: Run flake8
+        uses: py-actions/flake8@v2
